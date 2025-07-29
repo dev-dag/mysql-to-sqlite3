@@ -5,6 +5,7 @@ import os
 import re
 import sqlite3
 import typing as t
+from . import exclude_column
 from datetime import timedelta
 from decimal import Decimal
 from math import ceil
@@ -405,6 +406,9 @@ class MySQLtoSQLite(MySQLtoSQLiteAttributes):
 
         for row in rows:
             if row is not None:
+                if exclude_column.IsExcludedColumn(table_name, row["Field"]) == True:
+                    continue
+
                 column_type = self._translate_type_from_mysql_to_sqlite(
                     column_type=row["Type"],  # type: ignore[arg-type]
                     sqlite_json1_extension_enabled=self._sqlite_json1_extension_enabled,
