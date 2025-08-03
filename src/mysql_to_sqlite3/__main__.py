@@ -5,7 +5,8 @@ class Main:
     def __init__(self):
         self.path = "../../Assets/StreamingAssets/Reference_Data.db"
 
-        os.remove(self.path)
+        if (os.path.exists(self.path)):
+            os.remove(self.path)
 
         converter = MySQLtoSQLite(
             sqlite_file=self.path,
